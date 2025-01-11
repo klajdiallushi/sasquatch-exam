@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Sighting</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: rgba(240, 240, 240, 255);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #333;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 1.5em;
+            margin: 0;
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .user-info p {
+            margin: 0.5rem 0;
+        }
+
+        .user-info a {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007BFF;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .user-info a:hover {
+            background-color: #0056b3;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .sighting-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sighting-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .sighting-box {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sighting-box label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .sighting-box p {
+            margin: 5px 0;
+            text-align: center;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .actions form {
+            display: inline-block;
+        }
+
+        .actions button {
+            padding: 10px 20px;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .actions .skeptic {
+            background-color: #f44336;
+        }
+
+        .actions .believer {
+            background-color: #4CAF50;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007BFF;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .back-link:hover {
+            background-color: #0056b3;
+        }
+
+        .counts {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .count-box {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 0 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .count-box label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .count-box p {
+            font-size: 1.2em;
+            margin: 0;
+        }
+
+        .flash-message {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .flash-message.success {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .flash-message.danger {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Sasquash Websighting</h1>
+        <div class="user-info">
+            <p>{{ user.first_name }} {{ user.last_name }}</p>
+            <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </div>
+    <div class="content">
+        <div class="sighting-title">
+            {{ sighting.location }} on {{ sighting.date_of_sighting }}
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="sighting-container">
+            <div class="sighting-box">
+                <label>What happened:</label>
+                <p>{{ sighting.description }}</p>
+                
+                <label>Number of Sasquatches:</label>
+                <p>{{ sighting.number_of_sasquatches }}</p>
+                
+                <label>Reported by:</label>
+                <p>{{ sighting.reported_by_name }}</p>
+            </div>
+            <div class="actions">
+                <form action="{{ url_for('mark_as_skeptic', sighting_id=sighting.id) }}" method="POST">
+                    <button type="submit" class="skeptic">I'm Skeptical</button>
+                </form>
+                <form action="{{ url_for('mark_as_believer', sighting_id=sighting.id) }}" method="POST">
+                    <button type="submit" class="believer">I Believe</button>
+                </form>
+            </div>
+        </div>
+        <div class="counts">
+            <div class="count-box">
+                <label>Number of Skeptics:</label>
+                <p>{{ sighting.skeptic_count }}</p>
+            </div>
+            <div class="count-box">
+                <label>Number of Believers:</label>
+                <p>{{ sighting.believer_count }}</p>
+            </div>
+    
+</body>
+</html>

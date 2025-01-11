@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: rgba(240, 240, 240, 255);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 255);
+            padding: 4rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .flash-message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            text-align: center;
+            background-color: #ffdddd;
+            color: #d8000c;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .flash-message.success {
+            background: #ddffdd;
+            color: #4f8a10;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+
+        button {
+            background: #1877f2;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #155db2;
+        }
+
+        p {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        a {
+            color: #1877f2;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sasquatch Websighting</h1>
+        <h2>Login</h2>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div>
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        
+        <form action="{{ url_for('login') }}" method="POST">
+            <div>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+            <div>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+
+        <p>
+            Don't have an account? <a href="{{ url_for('register') }}">Register here</a>
+        </p>
+    </div>
+</body>
+</html>
