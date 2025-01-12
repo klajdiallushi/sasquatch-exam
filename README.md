@@ -1,6 +1,6 @@
 # Coding Dojo Full Stack Sasquash Websighting
 
-Welcome to the Coding Dojo Full Stack! Sasquash Websighting is a web application that allows users to report and view sightings of Sasquatches. Users can mark sightings as either "skeptical" or "believer" and view the counts of each.
+Welcome to the Coding Dojo Full Stack final exam! Sasquash Websighting is a web application that allows users to report and view sightings of Sasquatches. Users can mark sightings as either "skeptical" or "believer" and view the counts of each.
 
 
 ## Features
@@ -34,3 +34,10 @@ To run this project locally, follow these steps:
 1. Clone this repository to your local machine
 2. Activate virtual environment
 3. Run in your terminal ```python server.py```
+
+## Repository
+
+You can find the project repository on GitHub at the following URL:
+
+[GitHub](https://github.com/klajdiallushi/sasquatch-exam)
+
